@@ -17,9 +17,9 @@ __author__ = 'Сафин Алексей'
 
 a = bool(input("Введите число a: "))
 
-#a = ''
+a = True
 
 if a == a ** 2 and a == a * 2 and a > 999999:
-    print("Вы правы!" + a )
+    print("Вы правы!" + str(a))
 else:
     print("Попробуй еще" + str(a))
