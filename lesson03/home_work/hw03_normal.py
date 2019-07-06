@@ -52,10 +52,20 @@ def new_filter(filter_func, iter):
             result.append(iter[i])
     return result
 
-print(list(filter(lambda x: x > 5, [2, 10, -10, 8, 2, 0, 14])))
-print(list(new_filter(lambda x: x > 5, [2, 10, -10, 8, 2, 0, 14])))
+#print(list(filter(lambda x: x > 5, [2, 10, -10, 8, 2, 0, 14])))
+#print(list(new_filter(lambda x: x > 5, [2, 10, -10, 8, 2, 0, 14])))
 
 # Задача-4:
 # Даны четыре точки А1(х1, у1), А2(x2 ,у2), А3(x3 , у3), А4(х4, у4).
 # Определить, будут ли они вершинами параллелограмма.
 
+def check_parall(x1,y1,x2,y2,x3,y3,x4,y4):
+
+    result = 'Не является параллелограммом'
+
+    if x1 + x3 == x2 + x4 and y1 + y3 == y2 + y4: # диагонали равны
+        result = 'Является параллелограммом'
+
+    return result
+
+print(check_parall(0,0,1,0,1,1,0,1))
