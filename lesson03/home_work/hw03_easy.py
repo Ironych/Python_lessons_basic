@@ -6,9 +6,22 @@
 
 
 def my_round(number, ndigits):
-    pass
 
-my_round(2.1234567, 5)
+    number = int(number*10**(ndigits+1))
+
+    if (number%10 < 5):
+        number = int(number/10)
+    else:
+        number = int(number/10) + 1
+
+    result = str(number/10**ndigits)
+
+    return result
+
+
+#print(my_round(1112.12334567, 5))
+
+
 
 # Задание-2:
 # Дан шестизначный номер билета. Определить, является ли билет счастливым.
@@ -17,6 +30,32 @@ my_round(2.1234567, 5)
 # !!!P.S.: функция не должна НИЧЕГО print'ить
 
 
+from functools import reduce
+
+def sum3(items):
+    sum_all = reduce(lambda x,y: x + y, items)
+    return sum_all
+
 def lucky_ticket(ticket_number):
-    pass
+    """
+    Функция возвращает счатливый билет ли нет
+    :param ticket_number:
+    :return: result
+    """
+    ticket_number = str(ticket_number)
+    result = "увы, но ваш билет не является счастливым"
+    ticket_half1 = list(ticket_number[:3])
+    ticket_half2 = list(ticket_number[3:])
+    ticket_half1 = list(map(int, ticket_half1))
+    ticket_half2 = list(map(int, ticket_half2))
+
+    if len(ticket_number) != 6 or not ticket_number.isdigit:
+        result = "Номер билета не 6-тизначным числом"
+    elif sum3(ticket_half1) == sum3(ticket_half2):
+        result = "Поздравляю, Ваш Билет является счастливым!!!"
+
+    return result
+
+
+#print(lucky_ticket(195484))
 
