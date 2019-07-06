@@ -44,18 +44,20 @@ def lucky_ticket(ticket_number):
     """
     ticket_number = str(ticket_number)
     result = "увы, но ваш билет не является счастливым"
-    ticket_half1 = list(ticket_number[:3])
-    ticket_half2 = list(ticket_number[3:])
-    ticket_half1 = list(map(int, ticket_half1))
-    ticket_half2 = list(map(int, ticket_half2))
+
 
     if len(ticket_number) != 6 or not ticket_number.isdigit:
         result = "Номер билета не 6-тизначным числом"
-    elif sum3(ticket_half1) == sum3(ticket_half2):
-        result = "Поздравляю, Ваш Билет является счастливым!!!"
+    else:
+        ticket_half1 = list(ticket_number[:3])
+        ticket_half2 = list(ticket_number[3:])
+        ticket_half1 = list(map(int, ticket_half1))
+        ticket_half2 = list(map(int, ticket_half2))
+        if sum3(ticket_half1) == sum3(ticket_half2):
+            result = "Поздравляю, Ваш Билет является счастливым!!!"
 
     return result
 
 
-#print(lucky_ticket(195484))
+#print(lucky_ticket(19548.5))
 
