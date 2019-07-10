@@ -88,25 +88,36 @@ class Trap(Vektor):
         return self.ab.len
 
     # Периметр
-    @property
     def len_abcd(self):
-        return self.ab.len + self.bc.len + self.cd.len + self.da.len
+        c = self.ab.len
+        d = self.cd.len
+        a = self.bc.len
+        b = self.da.len
+        return a + b + c + d
+
     # Площадь
-    @property
     def s_abcd(self):
-        return abs(((self.x2 - self.x1) * (self.y3 - self.y1) - (self.x3 - self.x1) * (self.y2 - self.y1)) )/ 2
+        c = self.ab.len
+        d = self.cd.len
+        a = self.bc.len
+        b = self.da.len
+        if b == a:
+            return a * b
+        else:
+            return ((a + b) / 2) * (math.sqrt((c ** 2) - ((((b - a) ** 2) + (c ** 2) - (d ** 2)) / (2 * (b - a)))))
 
     # проверка что ранобедренный
     def proverka(self):
-        c = math.sqrt(((self.x2 - self.x1) ** 2) + ((self.y2 - self.y1) ** 2))
-        d = math.sqrt(((self.x4 - self.x3) ** 2) + ((self.y4 - self.y3) ** 2))
-
+        #c = math.sqrt(((self.x2 - self.x1) ** 2) + ((self.y2 - self.y1) ** 2))
+        #d = math.sqrt(((self.x4 - self.x3) ** 2) + ((self.y4 - self.y3) ** 2))
+        c = self.ab.len
+        d = self.cd.len
         if c == d:
             print("Трапеция равнобокая")
         else:
             print("Трапеция неравнобокая")
 
-abcd = Trap(0, 0, 0, 1, 1, 1, 0, -1)
-print(abcd.len_abcd)
-print(abcd.s_abcd)
+abcd = Trap(0, 0, 0, 1, 1, 1, 0, 1)
 abcd.proverka()
+print(abcd.len_abcd())
+print(abcd.s_abcd())
