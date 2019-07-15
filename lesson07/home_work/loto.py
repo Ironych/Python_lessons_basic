@@ -1,4 +1,6 @@
-#!/usr/bin/python3
+import random
+
+# !/usr/bin/python3
 
 """Лото
 
@@ -56,3 +58,101 @@
 модуль random: http://docs.python.org/3/library/random.html
 
 """
+
+
+class Row:
+    def __init__(self, start, b):
+        self.i = start
+        self.len = b + 1
+        self.row = [i for i in range(1, self.len)]
+        random.shuffle(self.row)
+
+    def __next__(self):
+        self.i += 1
+        if self.i <= self.len:
+            return self.i
+        else:
+            raise StopIteration
+
+
+class Kard:
+    def __init__(self, l1: list, l2: list, l3: list):
+        self.l1 = sorted(list(l1))
+        self.l2 = sorted(list(l2))
+        self.l3 = sorted(list(l3))
+
+# не смог оформить как итератор
+#     def __next__(self):
+#         self.i += 1
+#         if self.i <= self.len:
+#             return self.i
+#         else:
+#             raise StopIteration
+
+    def __str__(self):
+        result = f''
+        for i in self.l1:
+            result = result + str(i) + ' '
+        result = result + '\n'
+        for i in self.l2:
+            result = result + str(i) + ' '
+        result = result + '\n'
+        for i in self.l3:
+            result = result + str(i) + ' '
+        result = result + '\n'
+        return result
+
+    def change(self, x):
+        pass
+
+
+def comp_step(x):
+    pass
+
+
+def player_step(x):
+    ans = input('Зачеркнуть цифру? (y/n): ')
+    if ans == 'y':
+        if x in kard1:
+            kard_p1.change(x)
+            print('\nПродолжаем...')
+            return 1
+        else:
+            print('\nНет такого бочонка. Игра закончена')
+            return 0
+    if ans == 'n':
+        if x in kard1:
+            print('\nЕсть такой бочонок, Игра закончена')
+            return 0
+        else:
+            print('\nПродолжаем...')
+            return 1
+
+
+# # сгенеририм
+# bag = [i for i in range(1,91)]
+# # Перемешаем
+# random.shuffle(bag)
+# # превратим итератор
+# bag_iter = iter(bag)
+
+bag = random.sample(range(1, 91), 90)
+kards = random.sample(range(1, 91), 30)
+
+kard1 = random.sample(kards, 15)
+kard2 = [x for x in kards if not x in kard1]
+
+kard_p1 = Kard(kard1[:5], kard1[5:10], kard1[10:])
+kard_p2 = Kard(kard2[:5], kard2[5:10], kard2[10:])
+
+for i, x in enumerate(bag):
+    print('карточка игрока')
+    print(kard_p1)
+
+    print('карточка компа')
+    print(kard_p2)
+    print(f'Новый бочонок {x}, осталось {89 - i}')
+    if player_step(x):
+        comp_step(x)
+    else:
+        break

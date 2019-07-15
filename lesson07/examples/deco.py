@@ -19,4 +19,4 @@ def my_sum(a, b):
     
 
 # print(my_sum(5,7))    
-my_sum(5,7)
+my_sum(5, 17)
