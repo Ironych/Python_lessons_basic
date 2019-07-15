@@ -1,5 +1,4 @@
 import random
-import sys
 
 # !/usr/bin/python3
 
@@ -77,18 +76,18 @@ class Row:
 
 
 class Kard:
-    def __init__(self, l1:list, l2:list, l3:list):
+    def __init__(self, l1: list, l2: list, l3: list):
         self.l1 = sorted(list(l1))
         self.l2 = sorted(list(l2))
         self.l3 = sorted(list(l3))
 
-    def __next__(self):
-        self.i += 1
-        if self.i <= self.len:
-            return self.i
-        else:
-            raise StopIteration
-
+# не смог оформить как итератор
+#     def __next__(self):
+#         self.i += 1
+#         if self.i <= self.len:
+#             return self.i
+#         else:
+#             raise StopIteration
 
     def __str__(self):
         result = f''
@@ -104,12 +103,12 @@ class Kard:
         return result
 
     def change(self, x):
-        self.l1 = self.l1.insert(self.l1.index(x), '*')
-        self.l1.pop(self.l1.index(x))
-        self.l2 = self.l2.insert(self.l2.index(x), '*')
-        self.l2.pop(self.l2.index(x))
-        self.l3 = self.l3.insert(self.l3.index(x), '*')
-        self.l3.pop(self.l3.index(x))
+        pass
+
+
+def comp_step(x):
+    pass
+
 
 def player_step(x):
     ans = input('Зачеркнуть цифру? (y/n): ')
@@ -119,14 +118,15 @@ def player_step(x):
             print('\nПродолжаем...')
             return 1
         else:
-            print('\nИгра закончена')
-            sys.exit
+            print('\nНет такого бочонка. Игра закончена')
+            return 0
     if ans == 'n':
         if x in kard1:
-            print('\nИгра закончена')
-            sys.exit()
+            print('\nЕсть такой бочонок, Игра закончена')
+            return 0
         else:
             print('\nПродолжаем...')
+            return 1
 
 
 # # сгенеририм
@@ -145,14 +145,14 @@ kard2 = [x for x in kards if not x in kard1]
 kard_p1 = Kard(kard1[:5], kard1[5:10], kard1[10:])
 kard_p2 = Kard(kard2[:5], kard2[5:10], kard2[10:])
 
-
-print('карточка игрока')
-print(kard_p1)
-
-print('карточка компа')
-print(kard_p2)
-
 for i, x in enumerate(bag):
-    print(f'Новый бочонок {x}, осталось {90 - i}')
-    player_step(x)
-    #comp_step(x)
+    print('карточка игрока')
+    print(kard_p1)
+
+    print('карточка компа')
+    print(kard_p2)
+    print(f'Новый бочонок {x}, осталось {89 - i}')
+    if player_step(x):
+        comp_step(x)
+    else:
+        break
