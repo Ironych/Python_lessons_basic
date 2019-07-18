@@ -25,7 +25,7 @@ OpenWeatherMap — онлайн-сервис, который предостав�
         
 == Получение списка городов ==
     Список городов может быть получен по ссылке: http://bulk.openweathermap.org/sample/city.list.json.gz
-    
+
     Далее снова есть несколько вариантов (по желанию):
     - скачать и распаковать список вручную
     - автоматизировать скачивание (ulrlib) и распаковку списка 
@@ -108,3 +108,77 @@ OpenWeatherMap — онлайн-сервис, который предостав�
 
 """
 
+from urllib.request import urlretrieve
+import gzip
+import shutil
+import os
+import sqlite3
+import datetime
+import json
+
+
+class CityBuilder:
+    def __init__(self, d):
+        for a, b in d.items():
+            setattr(self, a, b)
+
+
+app_id_file = 'app.id'
+
+with open(app_id_file, 'r') as file:
+    appid = file.readline()
+
+url = 'http://bulk.openweathermap.org/sample/city.list.json.gz'
+destination = url.rsplit('/',1)[1]
+city = destination.rsplit('.',1)[0]
+urlretrieve(url, destination)
+
+with gzip.open(destination, 'rb') as f_in:
+    with open(city, 'wb') as f_out:
+        shutil.copyfileobj(f_in, f_out)
+
+
+with open(city, 'r', encoding='UTF-8') as f:
+    read_data = json.load(f)
+
+cities = CityBuilder(read_data[0])
+
+print(cities)
+
+# Создание файла базы данных
+
+db_filename = 'city.db'
+conn = sqlite3.connect(db_filename)
+conn.close()
+
+os.remove(db_filename)
+with sqlite3.connect(db_filename) as conn:
+    conn.execute("""
+        create table city (
+            city_id     INTEGER PRIMARY KEY,
+            name        TEXT,
+            country     TEXT,
+            date        DATE,
+            temperature INTEGER,
+            weather_id  INTEGER           
+        );
+        """)
+
+
+
+
+    # Insert
+    for i in cities:
+        #заполним нулевой температурой
+        temp = None
+        weather_id = None
+        conn.execute("""
+            insert into city (city_id, name, country, date,temperature, weather_id) VALUES (?,?,?,?,?,?)""", (
+                cities.id,
+                cities.name,
+                cities.country,
+                datetime.date.today(),
+                temp,
+                weather_id
+            )
+        )
